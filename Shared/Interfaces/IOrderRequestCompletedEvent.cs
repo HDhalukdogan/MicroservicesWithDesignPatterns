@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace Shared.Interfaces
 {
-    public class StockNotReservedEvent
+    public interface IOrderRequestCompletedEvent
     {
         public int OrderId { get; set; }
-
-        public string Message { get; set; }
     }
 }

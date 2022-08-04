@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace Shared.Interfaces
 {
-    public class StockReservedEvent
+    public interface IOrderCreatedRequestEvent
     {
         public int OrderId { get; set; }
         public string BuyerId { get; set; }
+        public List<OrderItemMessage> OrderItems { get; set; }
 
         public PaymentMessage Payment { get; set; }
-
-        public List<OrderItemMessage> OrderItems { get; set; } = new List<OrderItemMessage>();
     }
 }

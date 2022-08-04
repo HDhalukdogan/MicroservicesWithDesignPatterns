@@ -33,9 +33,10 @@ namespace Order.API
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<PaymentCompletedEventConsumer>();
-                x.AddConsumer<PaymentFailedEventConsumer>();
-                x.AddConsumer<StockNotReservedEventConsumer>();
+
+                x.AddConsumer<OrderRequestCompletedEventConsumer>();
+                x.AddConsumer<OrderRequestFailedEventConsumer>();
+
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     //cfg.Host(Configuration.GetConnectionString("RabbitMQ"));
@@ -46,18 +47,14 @@ namespace Order.API
                         host.Password("guest");
                     });
 
-                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderPaymentCompletedEventQueueName, e =>
+                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderRequestCompletedEventtQueueName, x =>
                     {
-                        e.ConfigureConsumer<PaymentCompletedEventConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderPaymentFailedEventQueueName, e =>
-                    {
-                        e.ConfigureConsumer<PaymentFailedEventConsumer>(context);
+                        x.ConfigureConsumer<OrderRequestCompletedEventConsumer>(context);
                     });
 
-                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderStockNotReservedEventQueueName, e =>
+                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.OrderRequestFailedEventtQueueName, x =>
                     {
-                        e.ConfigureConsumer<StockNotReservedEventConsumer>(context);
+                        x.ConfigureConsumer<OrderRequestFailedEventConsumer>(context);
                     });
                 });
             });

@@ -31,7 +31,7 @@ namespace Payment.API
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<StockReservedEventConsumer>();
+                x.AddConsumer<StockReservedRequestPaymentConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     //cfg.Host(Configuration.GetConnectionString("RabbitMQ"));
@@ -42,9 +42,9 @@ namespace Payment.API
                         host.Password("guest");
                     });
 
-                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.StockReservedEventQueueName, e =>
+                    cfg.ReceiveEndpoint(RabbitMQSettingsConst.PaymentStockReservedRequestQueueName, e =>
                     {
-                        e.ConfigureConsumer<StockReservedEventConsumer>(context);
+                        e.ConfigureConsumer<StockReservedRequestPaymentConsumer>(context);
                     });
                 });
             });
